@@ -1,6 +1,6 @@
 from pydantic import BaseModel, Field
 from decimal import Decimal
-from typing import Annotated
+from typing import Annotated, List
 
 NotaDecimal = Annotated[
     Decimal,
@@ -15,8 +15,8 @@ NotaDecimal = Annotated[
 class NotaBase(BaseModel):
     valor: NotaDecimal
     
-class NotaCreate(NotaBase):
-    estudiante_id: int
+class NotaUpdateList(BaseModel):
+    notas: List[NotaBase]
     
 class NotaRead(BaseModel):
     id: int
