@@ -55,7 +55,7 @@ def agregar_nota_estudiante(db: Session, estudiante_id: int, datos: NotaBase):
     estudiante = db.query(Estudiante).filter(Estudiante.id == estudiante_id).first()
     
     if not estudiante:
-        raise ValueError("Estudiante no encontrado")
+        return None
     
     if datos.valor < 0 or datos.valor > 5:
         raise ValueError("La nota debe estar entre 0 y 5")
@@ -81,7 +81,7 @@ def reemplazar_notas(db: Session, estudiante_id: int, nuevas_notas):
     estudiante = db.query(Estudiante).filter(Estudiante.id == estudiante_id).first()
     
     if not estudiante:
-        raise ValueError("Estudiante no encontrado")
+        return None
     
     try:
         
@@ -105,7 +105,7 @@ def eliminar_estudiante(db: Session, estudiante_id: int):
     estudiante = db.query(Estudiante).filter(Estudiante.id == estudiante_id).first()
     
     if not estudiante:
-        raise ValueError("Estudiante no encontrado")
+        return None
     
     try:
         db.delete(estudiante)

@@ -49,4 +49,35 @@ def agregar_nota_a_estudiante(
     
     return nueva_nota
     
+
+# ruta para reemplazar todas las notas de un estudiante
+@router.put("/{id}/notas", response_model=EstudianteReadNotas, status_code=200)
+def reemplazar_nota_estudiante_endpoint(
+    datos: NotaUpdateList,
+    id: int = Path(..., gt=0, description="Id del estudiante a actualizar notas"),
+    db: Session = Depends(get_db)
+):
+    reemplazar_notas_all = reemplazar_notas(db, id, datos.notas)
     
+    if not reemplazar_notas_all:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Estudiante con id {id} no encontrado"
+        )
+    
+    return reemplazar_notas_all
+
+# ruta para eliminar un estudiante
+@router.delete("/{id}", status_code=204)
+def eliminar_estudiante_endpoint(
+    id: int = Path(..., gt=0, description="Id del estudiante a eliminar"),
+    db: Session = Depends(get_db)
+):
+    resultado = eliminar_estudiante(db, id)
+    if not resultado:
+        raise HTTPException(
+            status_code=404,
+            detail=f"Estudiante con id {id} no encontrado"
+        )
+    
+    return None
